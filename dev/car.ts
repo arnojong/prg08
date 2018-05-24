@@ -7,13 +7,13 @@ class Car {
     private speed:number = 0
     private game:Game
     public check:number
-        
-    constructor(game:Game) {
 
+    constructor() {
+        // Because Game is now a singleton, you can easily get the instance via a static method
+        this.game = Game.getInstance()
         this.element = document.createElement("car")
         let foreground = document.getElementsByTagName("foreground")[0]
         foreground.appendChild(this.element)
-        this.game = game
         this.posx = 100
         this.posy = 750
         this.check = this.game.generateRandom()
