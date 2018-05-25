@@ -1,6 +1,7 @@
 class Game {
     
     protected car:Car
+    public key:HTMLElement
 
     private static instance:Game
 
@@ -38,9 +39,9 @@ class Game {
     }
 
     public showKey():void{
-        let key = document.createElement("div")
-        key.setAttribute("id","key")
-        document.body.appendChild(key)
+        this.key = document.createElement("div")
+        this.key.setAttribute("id","key")
+        document.body.appendChild(this.key)
         document.getElementById("key").innerHTML = ""+String.fromCharCode(this.car.check)+""
     }
     
