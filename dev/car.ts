@@ -21,11 +21,16 @@ class Car {
         window.addEventListener("keydown", (e:KeyboardEvent) => this.onKeyDown(e))
     }
 
+
+    // onKeyDown now deletes the current div element and loads in the div element with the key key you need to press next
     private onKeyDown(event:KeyboardEvent):void {
         switch(event.keyCode){
         case this.check:
+            document.body.removeChild(this.game.key)
             this.speed = 1
             this.check = this.game.generateRandom()
+            document.body.appendChild(this.game.key)
+            document.getElementById("key").innerHTML = ""+String.fromCharCode(this.check)+""
         }
     }
 
@@ -41,9 +46,14 @@ class Car {
         }
     }
 
+
+    //made it so that your car comes back to the left side off the screen when it drives off at the right.
     public update():void {
         this.bounce()
-        this.posx += this.speed
+        if(this.posx > window.innerWidth){
+            this.posx = -300
+        }else{
+            this.posx += this.speed}
         this.element.style.transform = `translate(${this.posx}px, ${this.posy}px)`
     }
 }
