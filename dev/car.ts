@@ -7,9 +7,10 @@ class Car {
     private speed:number = 0
     private game:Game
     public check:number
+    private last:number
+    private brakeSpeed:number = 700
 
     constructor() {
-        // Because Game is now a singleton, you can easily get the instance via a static method
         this.game = Game.getInstance()
         this.element = document.createElement("car")
         let foreground = document.getElementsByTagName("foreground")[0]
@@ -24,8 +25,13 @@ class Car {
     private onKeyDown(event:KeyboardEvent):void {
         switch(event.keyCode){
         case this.check:
-            this.speed = 1
+            this.last = Date.now()
+            this.speed += 1
             this.check = this.game.generateRandom()
+            this.game.setKey(this.check)
+            if (this.brakeSpeed > 400){
+                this.brakeSpeed -= 50
+            }
         }
     }
 
@@ -45,5 +51,9 @@ class Car {
         this.bounce()
         this.posx += this.speed
         this.element.style.transform = `translate(${this.posx}px, ${this.posy}px)`
+        if ((this.last + this.brakeSpeed) < Date.now()) {
+            this.speed --
+            this.last = Date.now()
+        }
     }
 }

@@ -4,17 +4,8 @@ class Game {
 
     private static instance:Game
 
-    /**
-     * The constructor should be private if this class is a singleton.
-     * This prevents other classes of creating a new Game instance.
-     */
     private constructor() {}
 
-    /**
-     * Because the class could still be 'in construction' when the constructor of the Car class is running,
-     * the Car constructor will call Game.getInstance() which will then create another Game instance.
-     * This creates an infinite loop. Thats why we have to call another method after the constructor is done.
-     */
     public initialize() {
         this.car = new Car()
         this.gameLoop()
@@ -22,10 +13,6 @@ class Game {
         this.showKey()
     }
 
-    /**
-     * Game should be a singleton class,
-     * because there will always only be 1 instance of Game.
-     */
     public static getInstance() {
         if (!this.instance) {            
             this.instance = new Game()
@@ -43,6 +30,10 @@ class Game {
         document.body.appendChild(key)
         document.getElementById("key").innerHTML = ""+String.fromCharCode(this.car.check)+""
     }
+
+    public setKey(key:number):void{
+        document.getElementById("key").innerHTML = ""+String.fromCharCode(key)+""
+    }
     
     private gameLoop():void{
         this.car.update()
@@ -52,7 +43,6 @@ class Game {
 } 
 
 window.addEventListener("load", () => {
-    // Create a Game instance and when that's done, call the initialize method.
     const g = Game.getInstance()
     g.initialize()
 });
