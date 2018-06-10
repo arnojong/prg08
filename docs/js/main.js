@@ -14,6 +14,7 @@ var Car = (function () {
         this.check = this.game.generateRandom();
         console.log(this.check);
         window.addEventListener("keydown", function (e) { return _this.onKeyDown(e); });
+        this.behavior = new Driving(this);
     }
     Car.prototype.onKeyDown = function (event) {
         switch (event.keyCode) {
@@ -41,13 +42,7 @@ var Car = (function () {
         }
     };
     Car.prototype.update = function () {
-        this.bounce();
-        this.posx += this.speed;
-        this.element.style.transform = "translate(" + this.posx + "px, " + this.posy + "px)";
-        if ((this.last + this.brakeSpeed) < Date.now()) {
-            this.speed--;
-            this.last = Date.now();
-        }
+        this.behavior.update();
     };
     return Car;
 }());
@@ -89,4 +84,19 @@ window.addEventListener("load", function () {
     var g = Game.getInstance();
     g.initialize();
 });
+var Driving = (function () {
+    function Driving(c) {
+        this.car = c;
+    }
+    Driving.prototype.update = function () {
+        this.car.bounce();
+        this.car.posx += this.car.speed;
+        this.car.element.style.transform = "translate(" + this.car.posx + "px, " + this.car.posy + "px)";
+        if ((this.car.last + this.car.brakeSpeed) < Date.now()) {
+            this.car.speed--;
+            this.car.last = Date.now();
+        }
+    };
+    return Driving;
+}());
 //# sourceMappingURL=main.js.map

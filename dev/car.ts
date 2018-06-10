@@ -1,14 +1,15 @@
 class Car {
     
-    private element: HTMLElement
-    private posx:number
-    private posy:number
+    public element: HTMLElement
+    public posx:number
+    public posy:number
     private counter:number = 0
-    private speed:number = 0
+    public speed:number = 0
     private game:Game
     public check:number
-    private last:number
-    private brakeSpeed:number = 700
+    public last:number
+    public brakeSpeed:number = 700
+    public behavior:Behavior
 
     constructor() {
         this.game = Game.getInstance()
@@ -20,6 +21,7 @@ class Car {
         this.check = this.game.generateRandom()
         console.log(this.check)
         window.addEventListener("keydown", (e:KeyboardEvent) => this.onKeyDown(e))
+        this.behavior = new Driving(this)
     }
 
     private onKeyDown(event:KeyboardEvent):void {
@@ -47,13 +49,7 @@ class Car {
         }
     }
 
-    public update():void {
-        this.bounce()
-        this.posx += this.speed
-        this.element.style.transform = `translate(${this.posx}px, ${this.posy}px)`
-        if ((this.last + this.brakeSpeed) < Date.now()) {
-            this.speed --
-            this.last = Date.now()
-        }
+    public update(){
+        this.behavior.update()
     }
 }
