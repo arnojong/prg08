@@ -7,7 +7,7 @@ class Speed implements Subject{
     constructor(){
     }
 
-    public subscribe(c:Observer){
+    public subscribe(c:Observer):void{
         this.observers.push(c)
     }
 
