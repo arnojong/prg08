@@ -167,7 +167,6 @@ var Truck = (function (_super) {
     Truck.prototype.notify = function (p) {
         this.posx += p;
         this.element.style.transform = "translate(" + this.posx + "px, " + this.posy + "px)";
-        p += 0.01;
     };
     return Truck;
 }(Vehicle));

@@ -4,7 +4,7 @@ class Backward implements Behavior {
         this.car = c
     }
 
-    public update(){
+    public update():void{
         this.car.bounce(1)
         this.car.posx += this.car.speed
         this.car.element.style.transform = `translate(${this.car.posx}px, ${this.car.posy}px)`

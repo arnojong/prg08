@@ -13,7 +13,6 @@ class Car extends Vehicle{
         this.game.setKey(this.check)
         this.posy = 750
         this.behavior = new Forward(this)
-
     }
 
     private onKeyDown(event:KeyboardEvent):void {
@@ -26,7 +25,7 @@ class Car extends Vehicle{
             if (this.speed > 0){
                 this.behavior = new Forward(this)
             }
-            break;
+            break
         default: this.speed--
         }
     }

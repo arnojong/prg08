@@ -9,18 +9,15 @@ class Truck extends Vehicle implements Observer{
 
         this.speedSubject = s
         this.speedSubject.subscribe(this)
-
         this.element = document.createElement("truck")
         let foreground = document.getElementsByTagName("foreground")[0]
         foreground.appendChild(this.element)
-
         this.posy = 650
     }
 
     public notify(p:number):void{
         this.posx+=p
         this.element.style.transform = `translate(${this.posx}px, ${this.posy}px)`
-        p += 0.01
     }
     
 }

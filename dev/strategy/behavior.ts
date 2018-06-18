@@ -1,4 +1,4 @@
 interface Behavior {
     car:Car
-    update() : void
+    update():void
 }
