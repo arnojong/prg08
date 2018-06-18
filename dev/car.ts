@@ -1,38 +1,19 @@
-class Car {
-    
-    public element: HTMLElement
-    public posx:number
-    public posy:number
-    private counter:number = 0
-    public speed:number = 0
-    private game:Game
-    public check:number
-    public last:number
-    public brakeSpeed:number = 1000
-    public behavior:Behavior
+///<reference path='vehicle.ts' />
+
+class Car extends Vehicle{
 
     constructor() {
-        this.game = Game.getInstance()
+        super()
+
         this.element = document.createElement("car")
         let foreground = document.getElementsByTagName("foreground")[0]
         foreground.appendChild(this.element)
-        this.posx = 100
-        this.posy = 750
-        this.check = this.game.generateRandom()
         window.addEventListener("keydown", (e:KeyboardEvent) => this.onKeyDown(e))
+        this.check = this.game.generateRandom()
+        this.game.setKey(this.check)
+        this.posy = 750
         this.behavior = new Forward(this)
-    }
 
-    public bounce(x:number):void{
-        if (this.counter === 15){
-            this.posy += 5*x
-            this.counter++
-        } else if (this.counter === 30){
-            this.posy -= 5*x
-            this.counter = 0
-        } else {
-            this.counter++
-        }
     }
 
     private onKeyDown(event:KeyboardEvent):void {
@@ -45,12 +26,12 @@ class Car {
             if (this.speed > 0){
                 this.behavior = new Forward(this)
             }
+            break;
+        default: this.speed--
         }
     }
 
-    
-    public update(){
-        console.log(this.speed)
+    public update():void{
         this.behavior.update()
-    }
+    }  
 }

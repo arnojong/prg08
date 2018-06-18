@@ -8,8 +8,7 @@ class Forward implements Behavior {
         this.car.bounce(2)
         this.car.posx += this.car.speed
         this.car.element.style.transform = `translate(${this.car.posx}px, ${this.car.posy}px)`
-        if ((this.car.last + this.car.brakeSpeed) < Date.now()) {
-            this.car.speed --
+        if ((this.car.last + 700) < Date.now()) {
             this.car.behavior = new Backward(this.car)
         }
     }
