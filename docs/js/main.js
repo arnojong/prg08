@@ -4,7 +4,7 @@ var Car = (function () {
         var _this = this;
         this.counter = 0;
         this.speed = 0;
-        this.brakeSpeed = 700;
+        this.brakeSpeed = 1000;
         this.game = Game.getInstance();
         this.element = document.createElement("car");
         var foreground = document.getElementsByTagName("foreground")[0];
@@ -12,36 +12,36 @@ var Car = (function () {
         this.posx = 100;
         this.posy = 750;
         this.check = this.game.generateRandom();
-        console.log(this.check);
         window.addEventListener("keydown", function (e) { return _this.onKeyDown(e); });
-        this.behavior = new Driving(this);
+        this.behavior = new Forward(this);
     }
-    Car.prototype.onKeyDown = function (event) {
-        switch (event.keyCode) {
-            case this.check:
-                this.last = Date.now();
-                this.speed += 1;
-                this.check = this.game.generateRandom();
-                this.game.setKey(this.check);
-                if (this.brakeSpeed > 400) {
-                    this.brakeSpeed -= 50;
-                }
-        }
-    };
-    Car.prototype.bounce = function () {
+    Car.prototype.bounce = function (x) {
         if (this.counter === 15) {
-            this.posy += 5;
+            this.posy += 5 * x;
             this.counter++;
         }
         else if (this.counter === 30) {
-            this.posy -= 5;
+            this.posy -= 5 * x;
             this.counter = 0;
         }
         else {
             this.counter++;
         }
     };
+    Car.prototype.onKeyDown = function (event) {
+        switch (event.keyCode) {
+            case this.check:
+                this.last = Date.now();
+                this.speed++;
+                this.check = this.game.generateRandom();
+                this.game.setKey(this.check);
+                if (this.speed > 0) {
+                    this.behavior = new Forward(this);
+                }
+        }
+    };
     Car.prototype.update = function () {
+        console.log(this.speed);
         this.behavior.update();
     };
     return Car;
@@ -84,12 +84,12 @@ window.addEventListener("load", function () {
     var g = Game.getInstance();
     g.initialize();
 });
-var Driving = (function () {
-    function Driving(c) {
+var Backward = (function () {
+    function Backward(c) {
         this.car = c;
     }
-    Driving.prototype.update = function () {
-        this.car.bounce();
+    Backward.prototype.update = function () {
+        this.car.bounce(1);
         this.car.posx += this.car.speed;
         this.car.element.style.transform = "translate(" + this.car.posx + "px, " + this.car.posy + "px)";
         if ((this.car.last + this.car.brakeSpeed) < Date.now()) {
@@ -97,6 +97,21 @@ var Driving = (function () {
             this.car.last = Date.now();
         }
     };
-    return Driving;
+    return Backward;
+}());
+var Forward = (function () {
+    function Forward(c) {
+        this.car = c;
+    }
+    Forward.prototype.update = function () {
+        this.car.bounce(2);
+        this.car.posx += this.car.speed;
+        this.car.element.style.transform = "translate(" + this.car.posx + "px, " + this.car.posy + "px)";
+        if ((this.car.last + this.car.brakeSpeed) < Date.now()) {
+            this.car.speed--;
+            this.car.behavior = new Backward(this.car);
+        }
+    };
+    return Forward;
 }());
 //# sourceMappingURL=main.js.map

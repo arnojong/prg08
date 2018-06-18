@@ -8,7 +8,7 @@ class Car {
     private game:Game
     public check:number
     public last:number
-    public brakeSpeed:number = 700
+    public brakeSpeed:number = 1000
     public behavior:Behavior
 
     constructor() {
@@ -19,37 +19,38 @@ class Car {
         this.posx = 100
         this.posy = 750
         this.check = this.game.generateRandom()
-        console.log(this.check)
         window.addEventListener("keydown", (e:KeyboardEvent) => this.onKeyDown(e))
-        this.behavior = new Driving(this)
+        this.behavior = new Forward(this)
     }
 
-    private onKeyDown(event:KeyboardEvent):void {
-        switch(event.keyCode){
-        case this.check:
-            this.last = Date.now()
-            this.speed += 1
-            this.check = this.game.generateRandom()
-            this.game.setKey(this.check)
-            if (this.brakeSpeed > 400){
-                this.brakeSpeed -= 50
-            }
-        }
-    }
-
-    public bounce():void{
+    public bounce(x:number):void{
         if (this.counter === 15){
-            this.posy += 5
+            this.posy += 5*x
             this.counter++
         } else if (this.counter === 30){
-            this.posy -= 5
+            this.posy -= 5*x
             this.counter = 0
         } else {
             this.counter++
         }
     }
 
+    private onKeyDown(event:KeyboardEvent):void {
+        switch(event.keyCode){
+        case this.check:
+            this.last = Date.now()
+            this.speed++
+            this.check = this.game.generateRandom()
+            this.game.setKey(this.check)
+            if (this.speed > 0){
+                this.behavior = new Forward(this)
+            }
+        }
+    }
+
+    
     public update(){
+        console.log(this.speed)
         this.behavior.update()
     }
 }
