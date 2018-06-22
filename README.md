@@ -14,6 +14,7 @@ https://arnojong.github.io/prg08/
 
 - Clone of Fork deze repository
 - Open index.html (in de docs map) in je browser via localhost/lokale bestanden
+- Als er geen auto's op het beeldscherm verschijnen moet je de game uitzoomen (Ctrl -)
 
 ## Klassendiagram
 
