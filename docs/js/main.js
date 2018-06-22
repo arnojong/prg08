@@ -178,7 +178,7 @@ var Backward = (function () {
         this.car.bounce(1);
         this.car.posx += this.car.speed;
         this.car.element.style.transform = "translate(" + this.car.posx + "px, " + this.car.posy + "px)";
-        if ((this.car.last + 700) < Date.now()) {
+        if ((this.car.last + 475) < Date.now()) {
             this.car.speed--;
             this.car.last = Date.now();
         }
@@ -193,7 +193,7 @@ var Forward = (function () {
         this.car.bounce(2);
         this.car.posx += this.car.speed;
         this.car.element.style.transform = "translate(" + this.car.posx + "px, " + this.car.posy + "px)";
-        if ((this.car.last + 700) < Date.now()) {
+        if ((this.car.last + 475) < Date.now()) {
             this.car.behavior = new Backward(this.car);
         }
     };
