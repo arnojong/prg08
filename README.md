@@ -17,7 +17,7 @@ https://arnojong.github.io/prg08/
 
 ## Klassendiagram
 
-Nog maken
+![Klassendiagram](https://i.imgur.com/EwYjGdV.png)
 
 ## Pull request
 
@@ -34,7 +34,7 @@ In deze issue heb ik de code van Perry's game gereviewed
 
 ## Singleton
 
-```
+```typescript
 public static getInstance():Game {
   if (!this.instance) {            
     this.instance = new Game()
@@ -49,11 +49,11 @@ In de class _Game_ heb ik gebruik gemaakt van Singleton om ervoor te zorgen dat 
 
 De eerste plek waar ik polymorfisme heb toegepast is in de class _Game_ te vinden.
 Ik maak daar eerst een array aan met Vehicles erin.
-```
+```typescript
 this.vehicle = [new Truck(this.speedSubject), new Car()]
 ```
 Verderop update ik beide vehicles en check ik de collisions d.m.v. een for loop door de array heen.
-```
+```typescript
 for(let v of this.vehicle){
   v.update()
   v.checkCollision()
@@ -61,11 +61,11 @@ for(let v of this.vehicle){
 ```
 
 Het andere voorbeeld van polymorfisme is een functie om de winnaar te bepalen, deze functie is ook te vinden in class _Game_.
-```
+```typescript
 this.game.winner(this)
 ```
 Bovenstaande code staat in class _Vehicle_ en deze roept de winner method aan met als parameter een Vehicle.
-```
+```typescript
 public winner(v:Vehicle):void{
   if (v instanceof Car){
     alert("You win :D\nDo you want to play again?")
@@ -90,29 +90,29 @@ In de _forward_ behavior bounced de auto hoger (omdat hij hard rijdt) en wordt d
 
 De observer en de subject heb ik in een interface map gestopt. De subject in mijn game is de class _Speed_. Hierin wordt de variabele ```speed``` steeds groter. De update functie van de class _Speed_ staat hieronder.
 
-```
+```typescript
 public update():void{
-        this.speed += 0.01
-        for(let c of this.observers){
-            c.notify(this.speed)
-        }
-    }
+  this.speed += 0.01
+  for(let c of this.observers){
+      c.notify(this.speed)
+  }
+}
 ```
 
 Deze variable ```speed``` wordt door twee observers 'beluisterd'. Namelijk door de _Truck_, deze gebruikt de ```speed``` om steeds sneller te gaan door zijn eigen posx hiermee up te daten, dat is hieronder te zien.
 
-```
+```typescript
 public notify(p:number):void{
-        this.posx+=p
-        this.element.style.transform = `translate(${this.posx}px, ${this.posy}px)`
-    }
+  this.posx+=p
+  this.element.style.transform = `translate(${this.posx}px, ${this.posy}px)`
+}
 ```
 
 De tweede observer is de class _Game_. Deze rekent de ```speed``` om in een bepaald aantal kilometer per uur, en laat deze zien op het scherm.
 
-```
+```typescript
 public notify(p:number):void{
-        let speed = Math.floor(p*2)+90
-        this.extraSpeedElement.innerHTML = speed.toString() + " km/u"
-    }
+  let speed = Math.floor(p*2)+90
+  this.extraSpeedElement.innerHTML = speed.toString() + " km/u"
+}
 ```
